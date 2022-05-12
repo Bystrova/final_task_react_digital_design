@@ -1,0 +1,28 @@
+@import '../../scss/variables.scss';
+// @import '../../scss/fonts.scss';
+// @import '../../scss/blocks/label.scss';
+
+.login-form {
+	width: 300px;
+	display: flex;
+	flex-direction: column;
+	background-color: $basic-white;
+	padding: 30px;
+	border-radius: 5px;
+	box-shadow: 0px 0px 5px 3px $inner-shadow;
+
+	&-heading {
+		margin: 0 0 30px 0;
+		padding: 0;
+		text-align: center;
+		font-weight: 400;
+		font-size: 24px;
+		line-height: 28px;
+	}
+
+	&-inputs {
+		margin-bottom: 10px;
+		display: flex;
+		flex-direction: column;
+	}
+}

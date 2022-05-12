@@ -1,0 +1,99 @@
+@import '../variables.scss';
+
+.button {
+	padding: 3px 20px 2px;
+	border: none;
+	border-radius: 5px;
+	font-family: inherit;
+	font-size: inherit;
+	cursor: pointer;
+	background-color: $default;
+
+	&:hover {
+		background-color: $default-hover;
+	}
+
+	&:active {
+		background-color: $default-active;
+	}
+
+	&-pagination {
+		padding: 3px 10px 2px;
+	}
+
+	&-default {
+		background-color: $default;
+		color: $basic-black;
+		border: 1px solid $text-color;
+		padding: 1px 10px 2px;
+
+		&:hover {
+			background-color: $default-hover;
+		}
+
+		&:active {
+			background-color: $default-active;
+		}
+	}
+
+	&-primary {
+		background-color: $primary;
+		color: $default;
+
+		&:hover {
+			background-color: $primary-hover;
+		}
+
+		&:active {
+			background-color: $primary-active;
+		}
+	}
+
+	&-error {
+		background-color: $error;
+		color: $default;
+
+		&:hover {
+			background-color: $error-hover;
+		}
+
+		&:active {
+			background-color: $error-active;
+		}
+	}
+
+	&-success {
+		background-color: $success;
+		color: $default;
+
+		&:hover {
+			background-color: $success-hover;
+		}
+
+		&:active {
+			background-color: $success-active;
+		}
+	}
+
+	&-delete-comment {
+		background-color: transparent;
+		border: none;
+		color: $error;
+		padding: 0;
+
+		&:hover {
+			background-color: transparent;
+			color: $error-hover;
+		}
+
+		&:active {
+			color: $error-active;
+		}
+	}
+
+	&:disabled {
+		background-color: $inner-shadow;
+		color: $label-text;
+		border: 1px solid $inner-shadow;
+	}
+}

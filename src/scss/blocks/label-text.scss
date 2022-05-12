@@ -1,0 +1,14 @@
+@import '../variables.scss';
+
+.label-text {
+	color: $label-text;
+	margin-bottom: 5px;
+	display: flex;
+	justify-content: space-between;
+
+	&-pagination {
+		font-size: 14px;
+		line-height: 16px;
+		margin-bottom: 0;
+	}
+}

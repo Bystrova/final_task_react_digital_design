@@ -1,0 +1,17 @@
+@import '../../scss/variables.scss';
+@import '../../scss/blocks/dropdown.scss';
+
+.header-user {
+	color: inherit;
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+
+	&-name {
+		margin-right: 10px;
+	}
+
+	&-photo {
+		border-radius: 50%;
+	}
+}

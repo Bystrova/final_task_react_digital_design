@@ -1,0 +1,30 @@
+@import '../../scss/variables.scss';
+
+.header-tabs {
+	font-family: $tabs-font;
+	font-size: 24px;
+	line-height: 33px;
+	display: flex;
+	align-content: stretch;
+	height: 100%;
+
+	&-link {
+		margin-right: 10px;
+		color: inherit;
+		text-decoration: none;
+		padding: 12px 0;
+		border-bottom: 2px solid transparent;
+
+		&:last-child {
+			margin-right: 0;
+		}
+
+		&:hover {
+			color: $primary;
+		}
+	}
+}
+
+.link-active {
+	border-bottom: 2px solid $primary;
+}

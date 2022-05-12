@@ -1,0 +1,49 @@
+@import '../../scss/variables.scss';
+// @import '../../scss/blocks/label.scss';
+// @import '../../scss/blocks/text-field.scss';
+
+.card {
+	&-wrapper {
+		display: flex;
+		height: 100%;
+	}
+
+	&-info {
+		width: 26%;
+		padding: 0 20px 0 0;
+
+		&-list {
+			margin: 0;
+		}
+	}
+
+	&-description {
+		width: 35%;
+		padding: 0 20px;
+		border-left: 1px solid $disabled;
+	}
+
+	&-text {
+		text-indent: 20px;
+		margin: 0;
+	}
+
+	&-comment {
+		width: 39%;
+		padding: 0 0 0 20px;
+		border-left: 1px solid $disabled;
+
+		.text-field {
+			margin-bottom: 10px;
+		}
+	}
+}
+
+.text {
+	margin: 0 0 20px 0;
+	padding: 0;
+
+	&:last-child {
+		margin: 0;
+	}
+}

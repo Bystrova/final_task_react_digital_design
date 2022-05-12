@@ -1,0 +1,48 @@
+@import '../../scss/variables.scss';
+
+.filter {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+
+	&-list {
+		list-style: none;
+		// margin: 0 0 20px 0;
+		margin: 0 14px 0 0;
+		padding: 0;
+		// height: 26px;
+		display: flex;
+		gap: 14px;
+		align-items: center;
+		width: 100%;
+	}
+
+	&-type {
+		width: 10%;
+		width: 98px;
+	}
+
+	&-name {
+		// width: 51%;
+		width: 527px;
+	}
+
+	&-user {
+		// width: 17%;
+		width: 180px;
+	}
+
+	&-status {
+		// width: 12%;
+		width: 120px;
+	}
+
+	&-priority {
+		// width: 12%;
+		width: 120px;
+	}
+
+	& .form-input {
+		margin: 0;
+	}
+}

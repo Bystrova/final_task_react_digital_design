@@ -1,0 +1,15 @@
+@import '../variables.scss';
+@import '../mixins.scss';
+
+.form-input {
+	@include input-style;
+	padding: 3px 10px;
+	margin: 0 0 20px 0;
+	height: 24px;
+
+	&:hover,
+	&:focus,
+	&:not(:placeholder-shown) {
+		padding: 2px 9px;
+	}
+}

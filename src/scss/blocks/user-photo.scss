@@ -1,0 +1,25 @@
+@import '../variables.scss';
+
+.user-photo {
+	width: 186px;
+	height: 186px;
+	border-radius: 50%;
+	background: conic-gradient(at 50% 50%, $primary, $error, $primary, $error, $primary, $error, $primary);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transform: rotate(25deg);
+	margin: 0 0 20px 0;
+
+	&-header {
+		width: 42px;
+		height: 42px;
+		margin: 0;
+	}
+
+	&-pic {
+		border-radius: 50%;
+		transform: rotate(-25deg);
+		object-fit: cover;
+	}
+}

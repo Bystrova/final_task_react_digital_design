@@ -1,0 +1,20 @@
+@import '../variables.scss';
+
+.row-link {
+	color: inherit;
+	display: block;
+	margin: 0;
+	padding: 20px 30px;
+	display: flex;
+	// justify-content: space-between;
+	align-items: center;
+	gap: 14px;
+
+	&:nth-child(2n) {
+		background-color: rgba($disabled, 0.15);
+	}
+
+	&-user {
+		padding: 21px 30px 22px;
+	}
+}
