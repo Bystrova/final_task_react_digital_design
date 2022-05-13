@@ -26,6 +26,14 @@ export const addOrEditTask = (data) => {
 	return axios.put(`${url}/tasks/createOrEdit`, data)
 }
 
+export const addTaskWorktime = (id, data) => {
+	return axios.patch(`${url}/tasks/${id}/worktime`, data)
+}
+
+export const changeTaskStatus = (id, status) => {
+	return axios.patch(`${url}/tasks/${id}/status/${status}`)
+}
+
 export const deleteTask = (id) => {
 	return axios.delete(`${url}/tasks/${id}`)
 }

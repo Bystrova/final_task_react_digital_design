@@ -6,7 +6,8 @@ const DropdownItem = observer(({ itemValue, itemKey, inputType, setValue, setIsC
 
 	const handleChoose = (evt) => {
 		setValue(evt.target.value);
-		setField(evt.target.id);
+		setField(evt.target.id); //ошибка setField is not a function
+		// setUnit(evt.target.value);
 		setIsClick(false);
 	}
 

@@ -7,7 +7,7 @@ import './filter-dropdown.scss';
 import '../../scss/blocks/form-input.scss';
 import { AppRoute } from '../../const';
 
-const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setField, defaultValue }) => {
+const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setField, setUnit, defaultValue }) => {
 
 	const [isClick, setIsClick] = useState(false);
 
@@ -31,7 +31,7 @@ const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setF
 
 
 	return (
-		<section className={`filter-dropdown ${isClick && 'filter-dropdown-active'}`}>
+		<div className={`filter-dropdown ${isClick && 'filter-dropdown-active'}`}>
 			<input className={`form-input filter-heading ${isClick && 'filter-heading-active'}`}
 				placeholder={dropdownType}
 				readOnly
@@ -60,10 +60,11 @@ const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setF
 								inputType={inputType}
 								setValue={setValue}
 								setField={setField}
+								setUnit={setUnit}
 								setIsClick={setIsClick} />)}
 				</ul>
 			}
-		</section>
+		</div>
 	)
 })
 

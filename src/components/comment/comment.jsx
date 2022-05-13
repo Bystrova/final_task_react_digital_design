@@ -18,12 +18,12 @@ const Comment = observer(({ text, userId, authUserId, id }) => {
 	}
 
 	return (
-		<dl>
+		<>
 			<dt className='label-text'>{`${user.username} (откуда эту дату взять????)`}
 				{authUserId === user.id && <button className='button button-delete-comment' type='button' onClick={handleDelete}>Удалить</button>}
 			</dt>
 			<dd className='text'>{text}</dd>
-		</dl>
+		</>
 	)
 })
 

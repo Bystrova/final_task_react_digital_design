@@ -23,6 +23,12 @@ const Task = observer(({ title, type, status, rank, id, assignedId }) => {
 		tasks.deleteTask(id);
 	}
 
+	const handleStatusChange = (evt) => {
+		evt.preventDefault();
+		let newStatus = evt.target.value;
+		tasks.changeTaskStatusFromList(id, newStatus);
+	}
+
 	return (
 		<>
 			<Link to={`${AppRoute.TASK_VIEW}/${id}`} className='row-link'>
@@ -57,10 +63,58 @@ const Task = observer(({ title, type, status, rank, id, assignedId }) => {
 						</button>
 						<object>
 							<ul className='dropdown-list'>
-								<li className='dropdown-item'><Link to={`${AppRoute.TASK_ADD}/${id}`} className='dropdown-link'>Редактировать</Link></li>
-								<li className='dropdown-item'><a className='dropdown-link dropdown-link-marked' onClick={handleDelete}>Удалить</a></li>
-								<li className='dropdown-item'><a className='dropdown-link'>На&nbsp;тестрование</a></li>
-								<li className='dropdown-item'><a className='dropdown-link'>Переоткрыть</a></li>
+								<li className='dropdown-item'>
+									<Link to={`${AppRoute.TASK_ADD}/${id}`} className='dropdown-link'>Редактировать
+									</Link>
+								</li>
+								<li className='dropdown-item'>
+									<button
+										className='dropdown-link dropdown-link-marked'
+										onClick={handleDelete}>
+										Удалить
+									</button>
+								</li>
+
+								{status === 'opened' &&
+									<li className='dropdown-item'>
+										<button
+											className='dropdown-link'
+											value='inProgress'
+											onClick={handleStatusChange}>
+											Взять в работу
+										</button>
+									</li>
+								}
+								{(status === 'inProgress' || status === 'testing' || status === 'complete') &&
+									<li className='dropdown-item'>
+										<button
+											className='dropdown-link'
+											value='opened'
+											onClick={handleStatusChange}>
+											Переоткрыть
+										</button>
+									</li>
+								}
+								{status === 'inProgress' &&
+									<li className='dropdown-item'>
+										<button
+											className='dropdown-link'
+											value='testing'
+											onClick={handleStatusChange}>
+											На&nbsp;тестирование
+										</button>
+									</li>
+								}
+								{(status === 'opened' || status === 'inProgress' || status === 'testing') &&
+									<li className='dropdown-item'>
+										<button
+											className='dropdown-link'
+											value='complete'
+											onClick={handleStatusChange}>
+											Готово
+										</button>
+									</li>
+								}
 							</ul>
 						</object>
 					</div >

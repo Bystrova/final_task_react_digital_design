@@ -63,6 +63,27 @@ const TaskView = observer(() => {
 		history.goBack();
 	}
 
+	const declinations = ['час', 'часа', 'часов']
+	const getHoursAndMinutes = (mins) => {
+		let hours = Math.trunc(mins / 60);
+		let minutes = mins % 60;
+		let hoursDeclination = '';
+		if (hours % 10 === 1 && hours % 100 < 2) {
+			hoursDeclination = declinations[0];
+		} else if (hours % 10 >= 2 && hours % 10 <= 4 && hours % 100 <= 5) {
+			hoursDeclination = declinations[1];
+		} else {
+			hoursDeclination = declinations[2];
+		}
+		return `${hours} ${hoursDeclination} ${minutes} минут`;
+	};
+
+	const handleStatusChange = (evt) => {
+		evt.preventDefault();
+		let newStatus = evt.target.value;
+		tasks.changeTaskStatusFromCard(id, newStatus);
+	}
+
 	return (
 		<main className='center'>
 			<section className='board'>
@@ -72,7 +93,34 @@ const TaskView = observer(() => {
 						<span className={`task-status task-status-${status}`}>{Statuses[status]}</span>
 					</div>
 					<div className='board-heading-wrapper'>
-						<button className='button button-default'>Взять в работу</button>
+						{status === 'opened' &&
+							<button
+								className='button button-default'
+								value='inProgress'
+								onClick={handleStatusChange}>
+								Взять в работу
+							</button>}
+						{(status === 'inProgress' || status === 'testing' || status === 'complete') &&
+							<button
+								className='button button-default'
+								value='opened'
+								onClick={handleStatusChange}>
+								Переоткрыть
+							</button>}
+						{status === 'inProgress' &&
+							<button
+								className='button button-default'
+								value='testing'
+								onClick={handleStatusChange}>
+								На тестирование
+							</button>}
+						{(status === 'opened' || status === 'inProgress' || status === 'testing') &&
+							<button
+								className='button button-success'
+								value='complete'
+								onClick={handleStatusChange}>
+								Готово
+							</button>}
 						<Link to={`${AppRoute.TASK_ADD}/${id}`} className='button button-primary'>Редактировать</Link>
 						<button className='button button-error' onClick={handleDelete}>Удалить</button>
 					</div>
@@ -94,7 +142,7 @@ const TaskView = observer(() => {
 								<dt className='label-text'>Дата изменения</dt>
 								<dd className='text'>{formatDateOfUpdate}</dd>
 								<dt className='label-text'>Затрачено времени</dt>
-								<dd className='text'>{`0 часов ${timeInMinutes} минут`}</dd>
+								<dd className='text'>{getHoursAndMinutes(timeInMinutes)}</dd>
 							</dl>
 							<button className='button button-primary' onClick={handleActive}>Сделать запись о работе</button>
 						</div>
@@ -105,12 +153,14 @@ const TaskView = observer(() => {
 						<div className='card-comment'>
 							<form onSubmit={handleSubmit}>
 								<span className='label-text'>{`Комментарии (${commentsData.length})`}</span>
-								<textarea className='text-field' placeholder='Текст комментария' name='comment' onChange={evt => setTextField(evt.target.value)}></textarea>
+								<textarea className='text-field' placeholder='Текст комментария' name='comment' onChange={evt => setTextField(evt.target.value)} required></textarea>
 								<button className='button button-success' type='submit'>Добавить комментарий</button>
 							</form>
-							{commentsData.slice().reverse().map(comment => <Comment {...comment} key={comment.id} authUserId={authUserId} />)}
+							<dl className='comment-list'>
+								{commentsData.slice().reverse().map(comment => <Comment {...comment} key={comment.id} authUserId={authUserId} />)}
+							</dl>
 						</div>
-						<Modal isActive={isActive} setIsActive={setIsActive} />
+						<Modal isActive={isActive} setIsActive={setIsActive} id={id} timeInMinutes={timeInMinutes} />
 					</section>
 				</section>
 			</section>

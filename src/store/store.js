@@ -1,5 +1,13 @@
 
-import {computed, makeAutoObservable, observable, onBecomeObserved, action, autorun, reaction} from 'mobx';
+import {
+	computed, 
+	makeAutoObservable,
+	observable, 
+	onBecomeObserved, 
+	action, 
+	reaction
+} from 'mobx';
+
 import { 
 	getTasks, 
 	getTask, 
@@ -11,7 +19,9 @@ import {
 	deleteComment, 
 	addOrEditTask,
 	editUser,
-	deleteTask
+	deleteTask,
+	addTaskWorktime,
+	changeTaskStatus
  } from '../api';
 
 export const authUserId = document.cookie.slice(document.cookie.indexOf('=') + 1);
@@ -45,8 +55,29 @@ class TasksStore {
 		this.taskData = response.data;
 	}
 
-	*addOrEditTask(data) {
+	*addTask(data) {
 		yield addOrEditTask(data);
+		yield this.getTasks();
+	}
+
+	*editTask(data) {
+		yield addOrEditTask(data);
+		yield this.getTask();
+	}
+
+	*addTaskWorktime(id, data){
+		yield addTaskWorktime(id, data);
+		yield this.getTask();
+		yield comments.getComments();
+	}
+
+	*changeTaskStatusFromCard(id, status){
+		yield changeTaskStatus(id, status);
+		yield this.getTask();
+	}
+
+	*changeTaskStatusFromList(id, status){
+		yield changeTaskStatus(id, status);
 		yield this.getTasks();
 	}
 

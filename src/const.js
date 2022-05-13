@@ -30,5 +30,11 @@ export const DropdownTypes = {
 	'rank': 'Приоритет',
 	'status': 'Статус',
 	'type': 'Тип',
-	'executor': 'Пользователь'
+	'executor': 'Пользователь',
+	'units': 'Единицы измерения'
+}
+
+export const Units = {
+	'minutes': 'Минуты',
+	'hours': 'Часы'
 }

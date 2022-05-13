@@ -52,16 +52,25 @@ const CardEdit = observer(({ id }) => {
 		setTextField({ ...textField, [name]: value });
 	}
 
+	const location = useLocation().pathname;
+	let addOrEditTask = '';
+	location === AppRoute.TASK_ADD ? addOrEditTask = 'addTask' : addOrEditTask = 'editTask';
+
 	const handleSubmit = (evt) => {
+		let taskId = '';
+		if (id) {
+			taskId = id;
+		}
 		evt.preventDefault();
-		tasks.addOrEditTask({
+		tasks[addOrEditTask]({
 			...textField,
 			'userId': authUserId,
 			'assignedId': taskAssignedId,
 			'type': taskType,
-			'rank': taskRank
+			'rank': taskRank,
+			'id': taskId
 		})
-		history.goBack()
+		history.goBack();
 	}
 
 	return (
