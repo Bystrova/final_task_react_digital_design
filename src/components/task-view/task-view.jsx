@@ -97,32 +97,36 @@ const TaskView = observer(() => {
 							<button
 								className='button button-default'
 								value='inProgress'
-								onClick={handleStatusChange}>
+								onClick={handleStatusChange}
+								type='button'>
 								Взять в работу
 							</button>}
 						{(status === 'inProgress' || status === 'testing' || status === 'complete') &&
 							<button
 								className='button button-default'
 								value='opened'
-								onClick={handleStatusChange}>
+								onClick={handleStatusChange}
+								type='button'>
 								Переоткрыть
 							</button>}
 						{status === 'inProgress' &&
 							<button
 								className='button button-default'
 								value='testing'
-								onClick={handleStatusChange}>
+								onClick={handleStatusChange}
+								type='button'>
 								На тестирование
 							</button>}
 						{(status === 'opened' || status === 'inProgress' || status === 'testing') &&
 							<button
 								className='button button-success'
 								value='complete'
-								onClick={handleStatusChange}>
+								onClick={handleStatusChange}
+								type='button'>
 								Готово
 							</button>}
 						<Link to={`${AppRoute.TASK_ADD}/${id}`} className='button button-primary'>Редактировать</Link>
-						<button className='button button-error' onClick={handleDelete}>Удалить</button>
+						<button className='button button-error' type='button' onClick={handleDelete}>Удалить</button>
 					</div>
 				</section>
 				<section className='board-wrapper'>

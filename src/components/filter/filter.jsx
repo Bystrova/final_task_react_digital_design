@@ -2,12 +2,16 @@ import React from 'react';
 import './filter.scss';
 import FilterDropdown from '../filter-dropdown/filter-dropdown';
 import { DropdownTypes, Types, Statuses, Ranks } from '../../const';
-
 import { users } from '../../store/store';
+import { useState } from 'react';
+import { observer } from 'mobx-react-lite';
 
-const Filter = () => {
+const Filter = observer(() => {
 
 	const { allUsersDataSorted } = users;
+
+	const [field, setField] = useState('');
+	// console.log(field)
 
 	return (
 		<form className='filter'>
@@ -16,7 +20,8 @@ const Filter = () => {
 					<FilterDropdown
 						dropdownType={DropdownTypes.type}
 						dropdownInputs={Types}
-						inputType='checkbox' />
+						inputType='checkbox'
+						setField={setField} />
 				</li>
 				<li className='filter-name'>
 					<input className='form-input' placeholder='Название задачи'></input>
@@ -42,7 +47,7 @@ const Filter = () => {
 			<button className='button button-primary' type='submit'>Применить</button>
 		</form >
 	)
-}
+})
 
 export default Filter;
 

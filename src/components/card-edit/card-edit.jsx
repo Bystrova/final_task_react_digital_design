@@ -2,9 +2,9 @@ import React from 'react';
 import FilterDropdown from '../filter-dropdown/filter-dropdown';
 import { Types, Ranks, DropdownTypes, AppRoute } from '../../const';
 import { observer } from 'mobx-react-lite';
-import { users, tasks, logIn, authUserId } from '../../store/store';
-import { useHistory, useParams, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { users, tasks, authUserId } from '../../store/store';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import '../../scss/blocks/form-input.scss';
 import '../../scss/blocks/text-field.scss';
 
@@ -19,7 +19,7 @@ const CardEdit = observer(({ id }) => {
 	let defaultRank = '';
 	let defaultId = '';
 
-	if (id !== undefined) {
+	if (id) {
 		tasks.id = id;
 		const { taskData } = tasks;
 		const { type, rank, title, description, assignedId } = taskData;
@@ -31,21 +31,28 @@ const CardEdit = observer(({ id }) => {
 		defaultId = assignedId;
 
 		const assignedUser = allUsersDataSorted.find(user => defaultId === user.id);
-		if (assignedUser !== undefined) {
+		if (assignedUser) {
 			assignedUsername = assignedUser.username;
 		}
 	}
 
 	const history = useHistory();
 
-	const [textField, setTextField] = useState({
+	const textFieldState = {
 		'title': defaultTitle,
 		'description': defaultDescription,
-	})
+	};
+	const [textField, setTextField] = useState(textFieldState);
+	const [taskRank, setRank] = useState(defaultRank);
+	const [taskType, setType] = useState(defaultType);
+	const [taskAssignedId, setAssignedId] = useState(defaultId);
 
-	const [taskRank, setRank] = useState(defaultRank)
-	const [taskType, setType] = useState(defaultType)
-	const [taskAssignedId, setAssignedId] = useState(defaultId)
+	useEffect(() => {
+		setTextField(textFieldState)
+		setRank(defaultRank);
+		setType(defaultType);
+		setAssignedId(defaultId)
+	}, [defaultRank, defaultType, defaultId, textFieldState.title, textFieldState.description]);
 
 	const handleFieldChange = (evt) => {
 		const { name, value } = evt.target;
@@ -69,7 +76,7 @@ const CardEdit = observer(({ id }) => {
 			'type': taskType,
 			'rank': taskRank,
 			'id': taskId
-		})
+		});
 		history.goBack();
 	}
 
@@ -79,7 +86,7 @@ const CardEdit = observer(({ id }) => {
 				<h1 className='board-heading'>{id ? 'Редактирование' : 'Создание'}</h1>
 				<div className='board-heading-wrapper'>
 					<button className='button button-primary' type='submit'>{id ? 'Сохранить' : 'Добавить'}</button>
-					<button className='button button-default' onClick={() => history.goBack()}>Отмена</button>
+					<button className='button button-default' type='button' onClick={() => history.goBack()}>Отмена</button>
 				</div>
 			</section>
 			<section className='board-wrapper'>
@@ -106,7 +113,7 @@ const CardEdit = observer(({ id }) => {
 							name='title'
 							autoComplete='off'
 							placeholder='Текст названия'
-							defaultValue={defaultTitle}
+							value={textField.title ?? ''}
 							required
 							onChange={handleFieldChange}
 						>
@@ -120,7 +127,7 @@ const CardEdit = observer(({ id }) => {
 							className='text-field text-field-description'
 							name='description'
 							placeholder='Текст описания'
-							defaultValue={defaultDescription}
+							value={textField.description ?? ''}
 							required
 							onChange={handleFieldChange}
 						>
@@ -129,11 +136,6 @@ const CardEdit = observer(({ id }) => {
 				</section>
 			</section>
 		</form >
-
-
-
-
-
 	)
 })
 

@@ -10,7 +10,7 @@ const PaginationButton = observer(({ pageNum, setPage, page }) => {
 
 	return (
 		<li className='pagination-item'>
-			<button className={`button button-${pageNum === page ? 'primary' : 'default'} button-pagination`} value={pageNum} onClick={handleClick}>{pageNum += 1}</button>
+			<button className={`button button-${pageNum === page ? 'primary' : 'default'} button-pagination`} type='button' value={pageNum} onClick={handleClick}>{pageNum += 1}</button>
 		</li>
 	)
 })

@@ -61,7 +61,7 @@ const UserCard = observer(() => {
 							<div className='board-heading-wrapper'>
 								<Link to={AppRoute.TASK_ADD} className='button button-default'>Добавить задачу</Link>
 								{id === authUserId &&
-									<button className='button button-primary' onClick={handleActive}>Редактировать</button>
+									<button className='button button-primary' type='button' onClick={handleActive}>Редактировать</button>
 								}
 							</div>
 						</>

@@ -1,13 +1,17 @@
 import React from 'react';
 import DropdownItem from '../dropdown-item/dropdown-item';
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import './filter-dropdown.scss';
 import '../../scss/blocks/form-input.scss';
 import { AppRoute } from '../../const';
+import App from '../../app/app';
 
-const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setField, setUnit, defaultValue }) => {
+const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setField, setUnit, defaultValue, modalValue, setModalValue }) => {
+
+	const { id } = useParams();
+	const location = useLocation().pathname;
 
 	const [isClick, setIsClick] = useState(false);
 
@@ -21,14 +25,11 @@ const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setF
 		}
 	});
 
-	const location = useLocation().pathname;
+	const [value, setValue] = useState(defaultValue);
 
-
-
-	const [value, setValue] = useState(defaultValue)
-
-	// console.log(value)
-
+	useEffect(() => {
+		setValue(defaultValue);
+	}, [defaultValue]);
 
 	return (
 		<div className={`filter-dropdown ${isClick && 'filter-dropdown-active'}`}>
@@ -36,7 +37,8 @@ const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setF
 				placeholder={dropdownType}
 				readOnly
 				onClick={handleClick}
-				defaultValue={value}>
+				value={location === `${AppRoute.TASK_VIEW}/${id}` ? modalValue : value ?? ''}
+			>
 			</input>
 			{isClick &&
 				<ul className='input-list input-list-show'>
@@ -58,9 +60,10 @@ const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setF
 								itemValue={dropdownInputs[itemKey]}
 								key={itemKey} itemKey={itemKey}
 								inputType={inputType}
-								setValue={setValue}
+								setValue={location === `${AppRoute.TASK_VIEW}/${id}` ? setModalValue : setValue}
 								setField={setField}
 								setUnit={setUnit}
+								setModalValue={setModalValue}
 								setIsClick={setIsClick} />)}
 				</ul>
 			}

@@ -37,14 +37,13 @@ const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, ti
 
 	const [form, setForm] = useState(defaultForm);
 	const [unit, setUnit] = useState('');
+	const [modalValue, setModalValue] = useState('');
 
 	const handleFieldChange = (evt) => {
 		evt.preventDefault();
 		const { name, value } = evt.target;
 		setForm({ ...form, [name]: value })
 	}
-
-
 
 	const handleSubmitUser = (evt) => {
 		evt.preventDefault();
@@ -61,7 +60,7 @@ const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, ti
 
 	const handleSubmitTask = (evt) => {
 		let timeInMinutes;
-		if (unit === Units.hours) {
+		if (unit === 'hours') {
 			timeInMinutes = form.time * 60;
 		} else {
 			timeInMinutes = form.time;
@@ -74,6 +73,7 @@ const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, ti
 		})
 		handleClose(evt);
 		evt.target.reset();
+		setModalValue('')
 	}
 
 	return (
@@ -88,7 +88,7 @@ const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, ti
 							<input className='form-input' id='time' placeholder='Введите число' name='time' onChange={handleFieldChange} type='number' required></input>
 							<div className='modal-dropdown'>
 								<label className='label-text' htmlFor='units'>Единицы измерения</label>
-								<FilterDropdown dropdownType={DropdownTypes.units} dropdownInputs={Units} setField={setUnit} inputType='radio' />
+								<FilterDropdown dropdownType={DropdownTypes.units} dropdownInputs={Units} setField={setUnit} modalValue={modalValue} setModalValue={setModalValue} inputType='radio' />
 							</div>
 							<label className='label-text' htmlFor='comment'>Комментарий</label>
 							<textarea className='text-field' id='comment' placeholder='Введите текст' name='comment' onChange={handleFieldChange}></textarea>
@@ -106,8 +106,8 @@ const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, ti
 
 				</div>
 				<div className='modal-buttons'>
-					<button type='submit' className='button button-primary'>{buttonText}</button>
-					<button className='button button-default' onClick={handleClose}>Отмена</button>
+					<button className='button button-primary' type='submit'>{buttonText}</button>
+					<button className='button button-default' type='button' onClick={handleClose}>Отмена</button>
 				</div>
 			</div>
 		</form>

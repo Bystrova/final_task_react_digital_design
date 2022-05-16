@@ -63,6 +63,7 @@ class TasksStore {
 	*editTask(data) {
 		yield addOrEditTask(data);
 		yield this.getTask();
+		yield this.getTasks();
 	}
 
 	*addTaskWorktime(id, data){
@@ -90,6 +91,7 @@ class TasksStore {
 export const tasks = new TasksStore();
 
 reaction(() => tasks.tasksFilter, () => { tasks.getTasks() });
+// reaction(() => tasks.id, () => { tasks.getTask() });
 
 
 class UsersStore {

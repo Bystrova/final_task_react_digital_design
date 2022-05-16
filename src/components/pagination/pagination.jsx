@@ -26,15 +26,15 @@ const Pagination = observer(({ total, limit, setPage, page, dataLength }) => {
 		<div className='pagination'>
 			<ul className='pagination-list'>
 				<li className='pagination-item'>
-					<button className='button button-default button-pagination' disabled={page === 0} onClick={handleBack}>Назад</button>
+					<button className='button button-default button-pagination' type='button' disabled={page === 0} onClick={handleBack}>Назад</button>
 				</li>
 				{total === 0 &&
 					<li className='pagination-item'>
-						<button className='button button-primary button-pagination' value='0'>1</button>
+						<button className='button button-primary button-pagination' type='button' value='0'>1</button>
 					</li>}
 				{pages.map(pageNum => <PaginationButton pageNum={pageNum} key={pageNum} setPage={setPage} page={page} />)}
 				<li className='pagination-item'>
-					<button className='button button-default button-pagination' disabled={page === pages.length - 1 || pages.length === 0} onClick={handleForward}>Вперед</button>
+					<button className='button button-default button-pagination' type='button' disabled={page === pages.length - 1 || pages.length === 0} onClick={handleForward}>Вперед</button>
 				</li>
 			</ul>
 			<span className='label-text label-text-pagination'>{`Показано ${shownFrom} - ${shownTo <= total ? shownTo : total} из ${total}`}</span>

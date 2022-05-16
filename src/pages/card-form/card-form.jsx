@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { tasks } from '../../store/store';
 import { observer } from 'mobx-react-lite';
 
-const CardForm = () => {
+const CardForm = observer(() => {
 
 	const { id } = useParams();
 
@@ -19,6 +19,6 @@ const CardForm = () => {
 			</main>
 		</>
 	)
-}
+})
 
 export default CardForm;

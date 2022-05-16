@@ -58,7 +58,7 @@ const Task = observer(({ title, type, status, rank, id, assignedId }) => {
 				</div >
 				{location !== AppRoute.USER &&
 					<div className='task-actions dropdown'>
-						<button className='task-button'>
+						<button className='task-button' type='button'>
 							<span className='visually-hidden'>Посмотреть возможные действия</span>
 						</button>
 						<object>
@@ -70,7 +70,8 @@ const Task = observer(({ title, type, status, rank, id, assignedId }) => {
 								<li className='dropdown-item'>
 									<button
 										className='dropdown-link dropdown-link-marked'
-										onClick={handleDelete}>
+										onClick={handleDelete}
+										type='button'>
 										Удалить
 									</button>
 								</li>
@@ -80,7 +81,8 @@ const Task = observer(({ title, type, status, rank, id, assignedId }) => {
 										<button
 											className='dropdown-link'
 											value='inProgress'
-											onClick={handleStatusChange}>
+											onClick={handleStatusChange}
+											type='button'>
 											Взять в работу
 										</button>
 									</li>
@@ -90,7 +92,8 @@ const Task = observer(({ title, type, status, rank, id, assignedId }) => {
 										<button
 											className='dropdown-link'
 											value='opened'
-											onClick={handleStatusChange}>
+											onClick={handleStatusChange}
+											type='button'>
 											Переоткрыть
 										</button>
 									</li>
@@ -100,7 +103,8 @@ const Task = observer(({ title, type, status, rank, id, assignedId }) => {
 										<button
 											className='dropdown-link'
 											value='testing'
-											onClick={handleStatusChange}>
+											onClick={handleStatusChange}
+											type='button'>
 											На&nbsp;тестирование
 										</button>
 									</li>
@@ -110,7 +114,8 @@ const Task = observer(({ title, type, status, rank, id, assignedId }) => {
 										<button
 											className='dropdown-link'
 											value='complete'
-											onClick={handleStatusChange}>
+											onClick={handleStatusChange}
+											type='button'>
 											Готово
 										</button>
 									</li>
