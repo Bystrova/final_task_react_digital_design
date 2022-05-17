@@ -6,9 +6,8 @@ import { observer } from 'mobx-react-lite';
 import './filter-dropdown.scss';
 import '../../scss/blocks/form-input.scss';
 import { AppRoute } from '../../const';
-import App from '../../app/app';
 
-const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setField, setUnit, defaultValue, modalValue, setModalValue }) => {
+const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setField, setUnit, defaultValue, modalValue, setModalValue, arrOfValues }) => {
 
 	const { id } = useParams();
 	const location = useLocation().pathname;
@@ -31,13 +30,30 @@ const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setF
 		setValue(defaultValue);
 	}, [defaultValue]);
 
+	const getArrLength = (dataStructure) => {
+		return Array.isArray(dataStructure) ? dataStructure.length : Object.keys(dataStructure).length;
+	}
+
+	let inputValue = value ?? '';
+	if (location === `${AppRoute.TASK_VIEW}/${id}`) {
+		inputValue = modalValue;
+	} else if (location === AppRoute.TASKS) {
+		if (arrOfValues.length > 0 && arrOfValues.length < getArrLength(dropdownInputs)) {
+			inputValue = `Выбрано: ${arrOfValues.length}`;
+		} else if (arrOfValues.length === getArrLength(dropdownInputs)) {
+			inputValue = `Выбраны все`;
+		} else {
+			inputValue = inputValue;
+		}
+	}
+
 	return (
 		<div className={`filter-dropdown ${isClick && 'filter-dropdown-active'}`}>
 			<input className={`form-input filter-heading ${isClick && 'filter-heading-active'}`}
 				placeholder={dropdownType}
 				readOnly
 				onClick={handleClick}
-				value={location === `${AppRoute.TASK_VIEW}/${id}` ? modalValue : value ?? ''}
+				value={inputValue}
 			>
 			</input>
 			{isClick &&
@@ -52,7 +68,9 @@ const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setF
 								inputType={inputType}
 								setValue={setValue}
 								setField={setField}
+								arrOfValues={arrOfValues}
 								setIsClick={setIsClick}
+								itemKeyIndex={arrOfValues.indexOf(dropdownInput.id)}
 							/>)
 						:
 						Object.keys(dropdownInputs)
@@ -64,7 +82,9 @@ const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setF
 								setField={setField}
 								setUnit={setUnit}
 								setModalValue={setModalValue}
-								setIsClick={setIsClick} />)}
+								arrOfValues={arrOfValues}
+								setIsClick={setIsClick}
+								itemKeyIndex={arrOfValues.indexOf(itemKey)} />)}
 				</ul>
 			}
 		</div>

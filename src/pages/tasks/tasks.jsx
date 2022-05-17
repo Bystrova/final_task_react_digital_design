@@ -14,26 +14,11 @@ import isEqual from 'lodash.isequal';
 const Tasks = observer(() => {
 
 	const { taskLimit, tasksFilter } = tasks;
-	const [page, setPage] = useState(0);
-	const filter = {
-		'filter': {
-			'query': '',
-			'assignedUsers': [],
-			'userIds': [],
-			'type': [],
-			'status': [],
-			'rank': []
-		},
-		'page': page,
-		'limit': taskLimit
-	}
-
-	if (!isEqual(filter, tasksFilter)) {
-		tasks.tasksFilter = filter;
-	}
+	const [page, setPage] = useState(tasks.tasksFilter.page);
+	tasks.tasksFilter.page = page;
 
 	const { tasksData, total } = tasks;
-	// console.log(tasksData.length)
+	// console.log(tasksData)
 
 	return (
 		<>
@@ -47,7 +32,7 @@ const Tasks = observer(() => {
 						</>
 					</section>
 					<section className='board-wrapper'>
-						<Filter />
+						<Filter page={page} />
 						<section className='board-inner'>
 							{tasksData.map(task => <Task {...task} key={task.id} />)}
 						</section>

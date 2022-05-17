@@ -94,11 +94,35 @@ const CardEdit = observer(({ id }) => {
 					<div className='card-info'>
 						<dl className='card-info-list'>
 							<dt className='label-text'>Исполнитель</dt>
-							<dd className='text'><FilterDropdown dropdownInputs={allUsersDataSorted} dropdownType={DropdownTypes.executor} inputType='radio' setField={setAssignedId} defaultValue={assignedUsername} /></dd>
+							<dd className='text'>
+								<FilterDropdown
+									dropdownInputs={allUsersDataSorted}
+									dropdownType={DropdownTypes.executor}
+									inputType='radio'
+									setField={setAssignedId}
+									defaultValue={assignedUsername}
+									arrOfValues={[taskAssignedId]} />
+							</dd>
 							<dt className='label-text'>Тип запроса</dt>
-							<dd className='text'><FilterDropdown dropdownInputs={Types} dropdownType={DropdownTypes.type} inputType='radio' setField={setType} defaultValue={Types[defaultType]} /></dd>
+							<dd className='text'>
+								<FilterDropdown
+									dropdownInputs={Types}
+									dropdownType={DropdownTypes.type}
+									inputType='radio'
+									setField={setType}
+									defaultValue={Types[defaultType]}
+									arrOfValues={[taskType]} />
+							</dd>
 							<dt className='label-text'>Приоритет</dt>
-							<dd className='text'><FilterDropdown dropdownInputs={Ranks} dropdownType={DropdownTypes.rank} inputType='radio' setField={setRank} defaultValue={Ranks[defaultRank]} /></dd>
+							<dd className='text'>
+								<FilterDropdown
+									dropdownInputs={Ranks}
+									dropdownType={DropdownTypes.rank}
+									inputType='radio'
+									setField={setRank}
+									defaultValue={Ranks[defaultRank]}
+									arrOfValues={[taskRank]} />
+							</dd>
 						</dl>
 					</div>
 					<div className='card-description'>

@@ -33,7 +33,18 @@ class TasksStore {
 	total = null;
 	taskLimit = 8;
 
-	tasksFilter = {}
+	tasksFilter = {
+		'filter': {
+			'query': '',
+			'assignedUsers': [],
+			'userIds': [],
+			'type': [],
+			'status': [],
+			'rank': []
+		},
+		'page': 0,
+		'limit': this.taskLimit
+	}
 
 	constructor() {
 		makeAutoObservable(this, {}, {
@@ -48,6 +59,9 @@ class TasksStore {
 		const response = yield getTasks(this.tasksFilter);
 		this.tasksData = response.data.data;
 		this.total = response.data.total;
+		console.log(this.tasksFilter.filter.assignedUsers);
+		console.log(response.data.data);
+		console.log('Следующий:')
 	}
 
 	*getTask() {
@@ -90,8 +104,12 @@ class TasksStore {
 
 export const tasks = new TasksStore();
 
-reaction(() => tasks.tasksFilter, () => { tasks.getTasks() });
-// reaction(() => tasks.id, () => { tasks.getTask() });
+reaction(() => tasks.tasksFilter.page, () => { tasks.getTasks() });
+reaction(() => tasks.tasksFilter.filter.type, () => { tasks.getTasks() });
+reaction(() => tasks.tasksFilter.filter.rank, () => { tasks.getTasks() });
+reaction(() => tasks.tasksFilter.filter.status, () => { tasks.getTasks() });
+reaction(() => tasks.tasksFilter.filter.assignedUsers, () => { tasks.getTasks() });
+reaction(() => tasks.tasksFilter.filter.query, () => { tasks.getTasks() });
 
 
 class UsersStore {
