@@ -5,17 +5,15 @@ import Modal from '../../components/modal/modal';
 import Pagination from '../../components/pagination/pagination';
 import '../../scss/blocks/board.scss';
 import userImage from '../../images/photo/photo.jpg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { tasks, users, logIn, authUserId } from '../../store/store';
+import { tasks, users } from '../../store/store';
 import { observer } from 'mobx-react-lite';
 import { AppRoute } from '../../const';
 import isEqual from 'lodash.isequal';
 
 
 const UserCard = observer(() => {
-	// const { authUserId } = logIn;
-
 	const [isActive, setIsActive] = useState(false);
 
 	const handleActive = () => {
@@ -24,31 +22,34 @@ const UserCard = observer(() => {
 
 	const { id } = useParams();
 	users.id = id;
+
 	const { userData } = users;
 	const { username, about, photoUrl } = userData;
 
-	const { taskLimit, tasksFilter } = tasks;
+	const { taskLimit } = tasks;
 
-	const [page, setPage] = useState(0);
-	const filter = {
-		'filter': {
-			'query': '',
-			'assignedUsers': [id],
-			'userIds': [],
-			'type': [],
-			'status': [],
-			'rank': []
-		},
-		'page': page,
-		'limit': taskLimit
-	}
+	const [page, setPage] = useState(tasks.pageInUserCard);
+	tasks.pageInUserCard = page;
 
-	if (!isEqual(filter, tasksFilter)) {
-		tasks.tasksFilter = filter;
-	}
+	useEffect(() => {
+		const tasksFilter = {
+			filter: {
+				query: '',
+				assignedUsers: [id],
+				userIds: [],
+				type: [],
+				status: [],
+				rank: []
+			},
+			page: tasks.pageInUserCard,
+			limit: tasks.taskLimit
+		}
+		if (!isEqual(tasks.tasksFilter, tasksFilter)) {
+			tasks.tasksFilter = tasksFilter;
+		}
+	}, [id, page])
 
 	const { tasksData, total } = tasks;
-	// console.log(users.allUsersData)
 
 	return (
 		<>
@@ -60,7 +61,7 @@ const UserCard = observer(() => {
 							<h1 className='board-heading'>{username}</h1>
 							<div className='board-heading-wrapper'>
 								<Link to={AppRoute.TASK_ADD} className='button button-default'>Добавить задачу</Link>
-								{id === authUserId &&
+								{id === localStorage.authUserId &&
 									<button className='button button-primary' type='button' onClick={handleActive}>Редактировать</button>
 								}
 							</div>
@@ -85,7 +86,7 @@ const UserCard = observer(() => {
 									</div>
 									<Pagination total={total} limit={taskLimit} setPage={setPage} page={page} dataLength={tasksData.length} />
 								</div>
-								{(userData.id === authUserId) && <Modal isActive={isActive} setIsActive={setIsActive} {...userData} />}
+								{(userData.id === localStorage.authUserId) && <Modal isActive={isActive} setIsActive={setIsActive} {...userData} />}
 							</div>
 						</>
 					</section>

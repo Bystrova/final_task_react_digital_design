@@ -8,7 +8,6 @@ import './header.scss';
 
 
 const Header = () => {
-
 	const location = useLocation().pathname;
 
 	return (

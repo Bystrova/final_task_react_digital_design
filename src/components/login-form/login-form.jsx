@@ -5,11 +5,9 @@ import '../../scss/blocks/label-text.scss';
 import '../../scss/blocks/form-input.scss';
 import { useState } from 'react';
 import { Redirect } from 'react-router';
-import { logIn } from '../../api';
-import { logInResponse } from '../../store/store';
+import { getLogIn } from '../../api';
 import { AppRoute } from '../../const';
 import { observer } from 'mobx-react-lite';
-import { responseData } from '../../api';
 
 const LoginForm = observer(() => {
 
@@ -27,18 +25,16 @@ const LoginForm = observer(() => {
 
 	const handleSubmit = (evt) => {
 		evt.preventDefault();
-		logIn({
+		getLogIn({
 			'login': form.login,
 			'password': form.password
 		}, setIsLogin)
 	}
 
 	if (isLogin) {
-		// console.log(responseData.data.id);
-		document.cookie = `userId=${responseData.data.id}`;
+		localStorage.password = form.password;
 		return <Redirect to={AppRoute.TASKS} />
 	}
-
 
 	return (
 		<section className='center center-login'>

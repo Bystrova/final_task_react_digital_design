@@ -2,9 +2,9 @@ import React from 'react';
 import FilterDropdown from '../filter-dropdown/filter-dropdown';
 import { Types, Ranks, DropdownTypes, AppRoute } from '../../const';
 import { observer } from 'mobx-react-lite';
-import { users, tasks, authUserId } from '../../store/store';
+import { users, tasks } from '../../store/store';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import '../../scss/blocks/form-input.scss';
 import '../../scss/blocks/text-field.scss';
 
@@ -17,7 +17,7 @@ const CardEdit = observer(({ id }) => {
 	let defaultDescription = '';
 	let defaultType = '';
 	let defaultRank = '';
-	let defaultId = '';
+	let defaultId = ''; //подумать как передать id 
 
 	if (id) {
 		tasks.id = id;
@@ -38,10 +38,11 @@ const CardEdit = observer(({ id }) => {
 
 	const history = useHistory();
 
-	const textFieldState = {
+	const textFieldState = useMemo(() => ({
 		'title': defaultTitle,
 		'description': defaultDescription,
-	};
+	}), [defaultTitle, defaultDescription]);
+
 	const [textField, setTextField] = useState(textFieldState);
 	const [taskRank, setRank] = useState(defaultRank);
 	const [taskType, setType] = useState(defaultType);
@@ -52,7 +53,7 @@ const CardEdit = observer(({ id }) => {
 		setRank(defaultRank);
 		setType(defaultType);
 		setAssignedId(defaultId)
-	}, [defaultRank, defaultType, defaultId, textFieldState.title, textFieldState.description]);
+	}, [defaultRank, defaultType, defaultId, textFieldState.title, textFieldState.description, textFieldState]);
 
 	const handleFieldChange = (evt) => {
 		const { name, value } = evt.target;
@@ -71,11 +72,11 @@ const CardEdit = observer(({ id }) => {
 		evt.preventDefault();
 		tasks[addOrEditTask]({
 			...textField,
-			'userId': authUserId,
-			'assignedId': taskAssignedId,
-			'type': taskType,
-			'rank': taskRank,
-			'id': taskId
+			userId: localStorage.authUserId,
+			assignedId: taskAssignedId,
+			type: taskType,
+			rank: taskRank,
+			id: taskId
 		});
 		history.goBack();
 	}

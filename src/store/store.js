@@ -2,9 +2,7 @@
 import {
 	computed, 
 	makeAutoObservable,
-	observable, 
-	onBecomeObserved, 
-	action, 
+	onBecomeObserved,  
 	reaction
 } from 'mobx';
 
@@ -24,7 +22,6 @@ import {
 	changeTaskStatus
  } from '../api';
 
-export const authUserId = document.cookie.slice(document.cookie.indexOf('=') + 1);
 
 class TasksStore {
 	tasksData = [];
@@ -32,6 +29,8 @@ class TasksStore {
 	id = '';
 	total = null;
 	taskLimit = 8;
+	page = 0;
+	pageInUserCard = 0;
 
 	tasksFilter = {
 		'filter': {
@@ -59,9 +58,6 @@ class TasksStore {
 		const response = yield getTasks(this.tasksFilter);
 		this.tasksData = response.data.data;
 		this.total = response.data.total;
-		console.log(this.tasksFilter.filter.assignedUsers);
-		console.log(response.data.data);
-		console.log('Следующий:')
 	}
 
 	*getTask() {
@@ -104,13 +100,7 @@ class TasksStore {
 
 export const tasks = new TasksStore();
 
-reaction(() => tasks.tasksFilter.page, () => { tasks.getTasks() });
-reaction(() => tasks.tasksFilter.filter.type, () => { tasks.getTasks() });
-reaction(() => tasks.tasksFilter.filter.rank, () => { tasks.getTasks() });
-reaction(() => tasks.tasksFilter.filter.status, () => { tasks.getTasks() });
-reaction(() => tasks.tasksFilter.filter.assignedUsers, () => { tasks.getTasks() });
-reaction(() => tasks.tasksFilter.filter.query, () => { tasks.getTasks() });
-
+reaction(() => tasks.tasksFilter, () => { tasks.getTasks() });
 
 class UsersStore {
 	allUsersData = [];
@@ -161,6 +151,7 @@ export const users = new UsersStore();
 export const logIn = new UsersStore();
 
 reaction(() => users.usersFilter, () => { users.getUsers() });
+reaction(() => users.id, () => { users.getUser() });
 
 class CommentsStore {
 	commentsData = [];

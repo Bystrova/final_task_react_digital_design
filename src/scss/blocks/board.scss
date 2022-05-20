@@ -1,5 +1,6 @@
 @import '../variables.scss';
 @import '../../scss/blocks/button.scss';
+@import '../../scss/mixins.scss';
 
 .board {
 	width: 1280px;
@@ -10,8 +11,10 @@
 		font-size: 24px;
 		line-height: 28px;
 		font-weight: 300;
-		margin: 0;
+		margin: 0 10px 0 0;
 		padding: 0;
+		display: inline;
+		vertical-align: middle;
 
 		&-wrapper {
 			display: flex;
@@ -28,7 +31,6 @@
 
 		display: flex;
 		flex-direction: column;
-		// gap: 20px;
 	}
 
 	&-top {
@@ -38,16 +40,15 @@
 		margin-bottom: 20px;
 
 		&-wrapper {
-			display: flex;
 			align-items: center;
 			gap: 10px;
+			margin-right: 10px;
 		}
 	}
 
 	&-inner {
 		box-shadow: inset 0px 0px 2px 1px $disabled;
 		border-radius: 5px;
-		// overflow: hidden;
 		flex-grow: 1;
 		margin-bottom: 20px;
 	}
@@ -70,6 +71,9 @@
 	&-about {
 		margin: 0;
 		padding: 0;
+		max-height: 370px;
+		overflow: auto;
+		@include scroll-style;
 	}
 
 	&-tasks {

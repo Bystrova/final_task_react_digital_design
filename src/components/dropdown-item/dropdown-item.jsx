@@ -2,7 +2,6 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { useLocation } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { useState } from 'react';
 import './dropdown-item.scss';
 
 const DropdownItem = observer(({ itemValue, itemKey, inputType, setValue, setIsClick, setField, arrOfValues, itemKeyIndex }) => {

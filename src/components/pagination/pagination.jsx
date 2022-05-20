@@ -1,10 +1,9 @@
 import React from 'react';
 import './pagination.scss';
-import { tasks } from '../../store/store';
 import { observer } from 'mobx-react-lite';
 import PaginationButton from '../pagination-button/pagination-button';
 
-const Pagination = observer(({ total, limit, setPage, page, dataLength }) => {
+const Pagination = observer(({ total, limit, setPage, page }) => {
 
 	const buttonQuantity = Math.ceil(total / limit);
 	const emptyArr = new Array(buttonQuantity);

@@ -6,7 +6,8 @@ import '../../scss/blocks/label-text.scss';
 import '../../scss/blocks/text-field.scss';
 import { AppRoute, Ranks, Statuses, Types } from '../../const';
 import { useState } from 'react';
-import { tasks, users, comments, logIn, authUserId } from '../../store/store';
+import { tasks, users, comments } from '../../store/store';
+// import { authUserId } from '../../api';
 import { observer } from 'mobx-react-lite';
 import { useParams, useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -38,7 +39,7 @@ const TaskView = observer(() => {
 	const author = allUsersData.find(user => userId === user.id);
 	let assigendUsername = '';
 	let authorUsername = '';
-	if (assignedUser !== undefined && author !== undefined) {
+	if (assignedUser && author) {
 		assigendUsername = assignedUser.username;
 		authorUsername = author.username;
 	}
@@ -51,9 +52,9 @@ const TaskView = observer(() => {
 	const handleSubmit = (evt) => {
 		evt.preventDefault();
 		comments.addOrEditComment({
-			'taskId': id,
-			'userId': authUserId,
-			'text': textField
+			taskId: id,
+			userId: localStorage.authUserId,
+			text: textField
 		});
 		evt.target.reset();
 	}
@@ -63,19 +64,24 @@ const TaskView = observer(() => {
 		history.goBack();
 	}
 
-	const declinations = ['час', 'часа', 'часов']
+	const getDeclination = (value, declinationsArr) => {
+		let valueDeclination = '';
+		if (value % 10 === 1 && value % 100 !== 11) {
+			valueDeclination = declinationsArr[0];
+		} else if (value % 10 >= 2 && value % 10 <= 4 && (value % 100 > 14 || value % 100 < 12)) {
+			valueDeclination = declinationsArr[1];
+		} else {
+			valueDeclination = declinationsArr[2];
+		}
+		return valueDeclination;
+	}
+
+	const hoursDeclinations = ['час', 'часа', 'часов'];
+	const minutesDeclinations = ['минута', 'минуты', 'минут'];
 	const getHoursAndMinutes = (mins) => {
 		let hours = Math.trunc(mins / 60);
 		let minutes = mins % 60;
-		let hoursDeclination = '';
-		if (hours % 10 === 1 && hours % 100 < 2) {
-			hoursDeclination = declinations[0];
-		} else if (hours % 10 >= 2 && hours % 10 <= 4 && hours % 100 <= 5) {
-			hoursDeclination = declinations[1];
-		} else {
-			hoursDeclination = declinations[2];
-		}
-		return `${hours} ${hoursDeclination} ${minutes} минут`;
+		return `${hours} ${getDeclination(hours, hoursDeclinations)} ${minutes} ${getDeclination(minutes, minutesDeclinations)}`;
 	};
 
 	const handleStatusChange = (evt) => {
@@ -99,7 +105,7 @@ const TaskView = observer(() => {
 								value='inProgress'
 								onClick={handleStatusChange}
 								type='button'>
-								Взять в работу
+								Взять&nbsp;в&nbsp;работу
 							</button>}
 						{(status === 'inProgress' || status === 'testing' || status === 'complete') &&
 							<button
@@ -115,7 +121,7 @@ const TaskView = observer(() => {
 								value='testing'
 								onClick={handleStatusChange}
 								type='button'>
-								На тестирование
+								На&nbsp;тестирование
 							</button>}
 						{(status === 'opened' || status === 'inProgress' || status === 'testing') &&
 							<button
@@ -152,7 +158,7 @@ const TaskView = observer(() => {
 						</div>
 						<div className='card-description'>
 							<span className='label-text'>Описание</span>
-							{description}
+							<p className='card-description-text'>{description}</p>
 						</div>
 						<div className='card-comment'>
 							<form onSubmit={handleSubmit}>
@@ -161,7 +167,7 @@ const TaskView = observer(() => {
 								<button className='button button-success' type='submit'>Добавить комментарий</button>
 							</form>
 							<dl className='comment-list'>
-								{commentsData.slice().reverse().map(comment => <Comment {...comment} key={comment.id} authUserId={authUserId} />)}
+								{commentsData.slice().reverse().map(comment => <Comment {...comment} key={comment.id} />)}
 							</dl>
 						</div>
 						<Modal isActive={isActive} setIsActive={setIsActive} id={id} timeInMinutes={timeInMinutes} />

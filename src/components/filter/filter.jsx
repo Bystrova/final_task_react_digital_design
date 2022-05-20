@@ -2,15 +2,13 @@ import React from 'react';
 import './filter.scss';
 import FilterDropdown from '../filter-dropdown/filter-dropdown';
 import { DropdownTypes, Types, Statuses, Ranks } from '../../const';
-import { users, tasks } from '../../store/store';
+import { users } from '../../store/store';
 import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import isEqual from 'lodash.isequal';
 
-const Filter = observer(({ page }) => {
+const Filter = observer(({ setFilter, setPage }) => {
 
 	const { allUsersDataSorted } = users;
-	const { taskLimit } = tasks;
 
 	const [arrOfUsers, setArrOfUsers] = useState([]);
 	const [arrOfTypes, setArrOfTypes] = useState([]);
@@ -20,11 +18,16 @@ const Filter = observer(({ page }) => {
 
 	const handleSubmitFilter = (evt) => {
 		evt.preventDefault();
-		tasks.tasksFilter.filter.type = arrOfTypes;
-		tasks.tasksFilter.filter.assignedUsers = arrOfUsers;
-		tasks.tasksFilter.filter.rank = arrOfRanks;
-		tasks.tasksFilter.filter.status = arrOfStatuses;
-		tasks.tasksFilter.filter.query = filterInput;
+		setPage(0);
+		setFilter({
+			query: filterInput,
+			assignedUsers: arrOfUsers,
+			userIds: [],
+			type: arrOfTypes,
+			status: arrOfStatuses,
+			rank: arrOfRanks
+		});
+
 	}
 
 	return (

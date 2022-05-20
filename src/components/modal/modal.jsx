@@ -8,7 +8,7 @@ import FilterDropdown from '../filter-dropdown/filter-dropdown';
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { AppRoute, Units, DropdownTypes } from '../../const';
-import { users, tasks, authUserId } from '../../store/store';
+import { users, tasks } from '../../store/store';
 
 const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, timeInMinutes }) => {
 
@@ -25,8 +25,8 @@ const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, ti
 		modalHeading = 'Запись о работе';
 		buttonText = 'Добавить';
 		defaultForm = {
-			'comment': '',
-			'time': 0
+			comment: '',
+			time: 0
 		}
 	}
 
@@ -50,10 +50,10 @@ const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, ti
 		users.id = id;
 		users.editUser({
 			...form,
-			'username': username,
-			'login': login,
-			'password': '123', // надо убрать id в переменную
-			'id': id
+			username: username,
+			login: login,
+			password: localStorage.password,
+			id: id
 		})
 		handleClose(evt);
 	}
@@ -67,17 +67,21 @@ const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, ti
 		}
 		evt.preventDefault();
 		tasks.addTaskWorktime(id, {
-			'timeInMinutes': timeInMinutes,
-			'comment': form.comment,
-			'currentUser': authUserId
+			timeInMinutes: timeInMinutes,
+			comment: form.comment,
+			currentUser: localStorage.authUserId
 		})
 		handleClose(evt);
 		evt.target.reset();
-		setModalValue('')
+		setModalValue('');
+		setForm({
+			comment: '',
+			time: form.time
+		})
 	}
 
 	return (
-		<form className={`modal ${isActive && 'modal-active'}`} onSubmit={location === `${AppRoute.TASK_VIEW}/${id}` ? handleSubmitTask : handleSubmitUser}>
+		<form className={`modal ${isActive && 'modal-active'}`} onSubmit={location === `${AppRoute.TASK_VIEW}/${id}` ? handleSubmitTask : handleSubmitUser} >
 			<div className='modal-wrapper'>
 				<h2 className='modal-heading'>{modalHeading}</h2>
 				<div className='modal-inner'>
@@ -88,7 +92,15 @@ const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, ti
 							<input className='form-input' id='time' placeholder='Введите число' name='time' onChange={handleFieldChange} type='number' required></input>
 							<div className='modal-dropdown'>
 								<label className='label-text' htmlFor='units'>Единицы измерения</label>
-								<FilterDropdown dropdownType={DropdownTypes.units} dropdownInputs={Units} setField={setUnit} modalValue={modalValue} setModalValue={setModalValue} inputType='radio' />
+								<FilterDropdown
+									dropdownType={DropdownTypes.units}
+									dropdownInputs={Units}
+									setField={setUnit}
+									modalValue={modalValue}
+									setModalValue={setModalValue}
+									inputType='radio'
+									arrOfValues={[unit]}
+								/>
 							</div>
 							<label className='label-text' htmlFor='comment'>Комментарий</label>
 							<textarea className='text-field' id='comment' placeholder='Введите текст' name='comment' onChange={handleFieldChange}></textarea>

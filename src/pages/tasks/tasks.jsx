@@ -8,17 +8,42 @@ import { AppRoute } from '../../const';
 import '../../scss/blocks/board.scss';
 import { tasks } from '../../store/store';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import isEqual from 'lodash.isequal';
 
 const Tasks = observer(() => {
+	const { taskLimit } = tasks;
 
-	const { taskLimit, tasksFilter } = tasks;
-	const [page, setPage] = useState(tasks.tasksFilter.page);
-	tasks.tasksFilter.page = page;
+	const [page, setPage] = useState(tasks.page);
+	tasks.page = page;
+
+	const [filter, setFilter] = useState({
+		query: '',
+		assignedUsers: [],
+		userIds: [],
+		type: [],
+		status: [],
+		rank: []
+	});
+
+	useEffect(() => {
+		const tasksFilter = {
+			filter: filter,
+			page: tasks.page,
+			limit: tasks.taskLimit
+		}
+		if (!isEqual(tasks.tasksFilter, tasksFilter)) {
+			tasks.tasksFilter = tasksFilter;
+		}
+	}, [filter, page])
+
+	// useEffect(() => {
+	// 	if (!isEqual(tasks.tasksFilter, tasksFilter)) {
+	// 		tasks.tasksFilter = tasksFilter;
+	// 	}
+	// }, [tasksFilter])
 
 	const { tasksData, total } = tasks;
-	// console.log(tasksData)
 
 	return (
 		<>
@@ -32,7 +57,7 @@ const Tasks = observer(() => {
 						</>
 					</section>
 					<section className='board-wrapper'>
-						<Filter page={page} />
+						<Filter setPage={setPage} setFilter={setFilter} />
 						<section className='board-inner'>
 							{tasksData.map(task => <Task {...task} key={task.id} />)}
 						</section>

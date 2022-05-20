@@ -2,12 +2,14 @@ import axios from 'axios';
 
 const url = 'http://93.95.97.34/api';
 
-export let responseData = {};
-export const logIn = (data, cb) => {
+// export let responseData = {};
+export let authUserId = '';
+export const getLogIn = (data, cb) => {
 	return	axios.post(`${url}/users/login`, {...data})
 			.then(response => {
 				if(response.status === 200) {
-					responseData = response;
+					// responseData = response;
+					localStorage.setItem('authUserId', response.data.id)
 					cb(true);
 				}
 			})

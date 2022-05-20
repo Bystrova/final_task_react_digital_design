@@ -10,6 +10,7 @@ import CardForm from '../pages/card-form/card-form';
 import '../scss/style.scss';
 
 const App = () => {
+
 	return (
 		<BrowserRouter>
 		<Switch>

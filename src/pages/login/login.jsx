@@ -8,7 +8,6 @@ const Login = () => {
 			<Header />
 			<LoginForm />
 		</>
-
 	)
 }
 

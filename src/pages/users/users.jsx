@@ -2,8 +2,6 @@ import React from 'react';
 import Header from '../../components/header/header';
 import User from '../../components/user/user';
 import Pagination from '../../components/pagination/pagination';
-// import { Link } from 'react-router-dom';
-// import { AppRoute } from '../../const';
 import '../../scss/blocks/board.scss';
 import { users } from '../../store/store';
 import { observer } from 'mobx-react-lite';
@@ -27,7 +25,6 @@ const Users = observer(() => {
 	}
 
 	const { usersData, total } = users;
-	// console.log(users.allUsersDataSorted)
 
 	return (
 		<>

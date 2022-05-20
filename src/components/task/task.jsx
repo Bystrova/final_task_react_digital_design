@@ -56,7 +56,7 @@ const Task = observer(({ title, type, status, rank, id, assignedId }) => {
 					}
 					<span>{Ranks[rank]}</span>
 				</div >
-				{location !== AppRoute.USER &&
+				{location.indexOf(AppRoute.USER) === -1 &&
 					<div className='task-actions dropdown'>
 						<button className='task-button' type='button'>
 							<span className='visually-hidden'>Посмотреть возможные действия</span>
