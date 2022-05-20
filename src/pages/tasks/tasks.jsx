@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react';
 import isEqual from 'lodash.isequal';
 
 const Tasks = observer(() => {
+	localStorage.removeItem('lastUserId');
 	const { taskLimit } = tasks;
 
 	const [page, setPage] = useState(tasks.page);
@@ -37,12 +38,6 @@ const Tasks = observer(() => {
 		}
 	}, [filter, page])
 
-	// useEffect(() => {
-	// 	if (!isEqual(tasks.tasksFilter, tasksFilter)) {
-	// 		tasks.tasksFilter = tasksFilter;
-	// 	}
-	// }, [tasksFilter])
-
 	const { tasksData, total } = tasks;
 
 	return (
@@ -58,9 +53,9 @@ const Tasks = observer(() => {
 					</section>
 					<section className='board-wrapper'>
 						<Filter setPage={setPage} setFilter={setFilter} />
-						<section className='board-inner'>
+						<div className='board-inner'>
 							{tasksData.map(task => <Task {...task} key={task.id} />)}
-						</section>
+						</div>
 						<Pagination total={total} limit={taskLimit} setPage={setPage} page={page} dataLength={tasksData.length} />
 					</section>
 				</section>

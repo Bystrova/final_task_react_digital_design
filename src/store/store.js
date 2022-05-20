@@ -22,7 +22,6 @@ import {
 	changeTaskStatus
  } from '../api';
 
-
 class TasksStore {
 	tasksData = [];
 	taskData = {};
@@ -31,6 +30,7 @@ class TasksStore {
 	taskLimit = 8;
 	page = 0;
 	pageInUserCard = 0;
+	
 
 	tasksFilter = {
 		'filter': {
@@ -110,6 +110,7 @@ class UsersStore {
 	usersFilter = {};
 	total = null;
 	userLimit = 9;
+	lastLocation = '';
 	
 	constructor() {
 		makeAutoObservable(this, {}, {

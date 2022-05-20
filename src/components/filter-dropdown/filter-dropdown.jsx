@@ -24,16 +24,6 @@ const FilterDropdown = observer(({ dropdownInputs, dropdownType, inputType, setF
 	}
 	const ref = useDetectClickOutside({ onTriggered: handleClose });
 
-
-
-	// document.addEventListener('click', (evt) => {
-	// 	if (evt.target.tagName !== 'INPUT' && evt.target.tagName !== 'LABEL') {
-	// 		setIsClick(false);
-	// 	}
-	// });
-
-
-
 	const [value, setValue] = useState(defaultValue);
 
 	useEffect(() => {

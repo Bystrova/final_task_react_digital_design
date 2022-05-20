@@ -18,7 +18,8 @@ const HeaderUser = observer(() => {
 	const history = useHistory();
 	const handleExit = (evt) => {
 		evt.preventDefault();
-		localStorage.removeItem('authUserId')
+		localStorage.removeItem('authUserId');
+		localStorage.removeItem('lastUserId');
 		history.push(AppRoute.LOGIN)
 	}
 
@@ -33,7 +34,6 @@ const HeaderUser = observer(() => {
 				</div>
 				<ul className='dropdown-list dropdown-list-header'>
 					<li className='dropdown-item'><Link to={`${AppRoute.USER}/${authUserId}`} className='dropdown-link'>Посмотреть профиль</Link></li>
-					{/* <li className='dropdown-item'><Link to={AppRoute.LOGIN} className='dropdown-link dropdown-link-marked' >Выйти из системы</Link></li> */}
 					<li className='dropdown-item'><button className='dropdown-link dropdown-link-marked' onClick={handleExit} >Выйти из системы</button></li>
 				</ul>
 			</div>

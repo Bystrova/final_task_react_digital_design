@@ -5,19 +5,21 @@ import { observer } from 'mobx-react-lite';
 import { users, tasks } from '../../store/store';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useState, useEffect, useMemo } from 'react';
+// import { useLastLocation } from 'react-router-last-location';
 import '../../scss/blocks/form-input.scss';
 import '../../scss/blocks/text-field.scss';
 
 const CardEdit = observer(({ id }) => {
+	const history = useHistory();
+	const location = useLocation().pathname;
 
 	const { allUsersDataSorted } = users;
 	let assignedUsername = '';
-
 	let defaultTitle = '';
 	let defaultDescription = '';
 	let defaultType = '';
 	let defaultRank = '';
-	let defaultId = ''; //подумать как передать id 
+	let defaultId = localStorage.lastUserId ? localStorage.lastUserId : '';
 
 	if (id) {
 		tasks.id = id;
@@ -30,13 +32,15 @@ const CardEdit = observer(({ id }) => {
 		defaultRank = rank;
 		defaultId = assignedId;
 
-		const assignedUser = allUsersDataSorted.find(user => defaultId === user.id);
-		if (assignedUser) {
-			assignedUsername = assignedUser.username;
-		}
+		// const assignedUser = allUsersDataSorted.find(user => defaultId === user.id);
+		// if (assignedUser) {
+		// 	assignedUsername = assignedUser.username;
+		// }
 	}
-
-	const history = useHistory();
+	const assignedUser = allUsersDataSorted.find(user => defaultId === user.id);
+	if (assignedUser) {
+		assignedUsername = assignedUser.username;
+	}
 
 	const textFieldState = useMemo(() => ({
 		'title': defaultTitle,
@@ -60,7 +64,6 @@ const CardEdit = observer(({ id }) => {
 		setTextField({ ...textField, [name]: value });
 	}
 
-	const location = useLocation().pathname;
 	let addOrEditTask = '';
 	location === AppRoute.TASK_ADD ? addOrEditTask = 'addTask' : addOrEditTask = 'editTask';
 
@@ -78,6 +81,12 @@ const CardEdit = observer(({ id }) => {
 			rank: taskRank,
 			id: taskId
 		});
+		localStorage.removeItem('lastUserId');
+		history.goBack();
+	}
+
+	const handleBack = () => {
+		localStorage.removeItem('lastUserId');
 		history.goBack();
 	}
 
@@ -87,7 +96,7 @@ const CardEdit = observer(({ id }) => {
 				<h1 className='board-heading'>{id ? 'Редактирование' : 'Создание'}</h1>
 				<div className='board-heading-wrapper'>
 					<button className='button button-primary' type='submit'>{id ? 'Сохранить' : 'Добавить'}</button>
-					<button className='button button-default' type='button' onClick={() => history.goBack()}>Отмена</button>
+					<button className='button button-default' type='button' onClick={handleBack}>Отмена</button>
 				</div>
 			</section>
 			<section className='board-wrapper'>

@@ -13,26 +13,26 @@ const App = () => {
 
 	return (
 		<BrowserRouter>
-		<Switch>
-			<Route path={AppRoute.LOGIN} exact>
-				<Login />
-			</Route>
-			<Route path={AppRoute.TASKS} exact>
-				<Tasks />
-			</Route>
-			<Route path={`${AppRoute.TASK_VIEW}/:id?`} exact>
-				<TaskCard/>
-			</Route>
-			<Route path={AppRoute.TASK_EDIT} exact>
-				<CardForm/>
-			</Route>
-			<Route path={AppRoute.USERS} exact>
-				<Users/>
-			</Route>
-			<Route path={`${AppRoute.USER}/:id?`} exact>
-				<UserCard/>
-			</Route>
-		</Switch>
+			<Switch>
+				<Route path={AppRoute.LOGIN} exact>
+					<Login />
+				</Route>
+				<Route path={AppRoute.TASKS} exact>
+					<Tasks />
+				</Route>
+				<Route path={`${AppRoute.TASK_VIEW}/:id?`} exact>
+					<TaskCard/>
+				</Route>
+				<Route path={AppRoute.TASK_EDIT} exact>
+					<CardForm/>
+				</Route>
+				<Route path={AppRoute.USERS} exact>
+					<Users/>
+				</Route>
+				<Route path={`${AppRoute.USER}/:id?`} exact>
+					<UserCard/>
+				</Route>
+			</Switch>
 		</BrowserRouter>
 	)
 }

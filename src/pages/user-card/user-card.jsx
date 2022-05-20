@@ -6,7 +6,7 @@ import Pagination from '../../components/pagination/pagination';
 import '../../scss/blocks/board.scss';
 import userImage from '../../images/photo/photo.jpg';
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { tasks, users } from '../../store/store';
 import { observer } from 'mobx-react-lite';
 import { AppRoute } from '../../const';
@@ -14,6 +14,8 @@ import isEqual from 'lodash.isequal';
 
 
 const UserCard = observer(() => {
+	const history = useHistory();
+
 	const [isActive, setIsActive] = useState(false);
 
 	const handleActive = () => {
@@ -51,6 +53,11 @@ const UserCard = observer(() => {
 
 	const { tasksData, total } = tasks;
 
+	const handleAddTask = () => {
+		localStorage.lastUserId = id;
+		history.push(AppRoute.TASK_ADD);
+	}
+
 	return (
 		<>
 			<Header />
@@ -60,7 +67,8 @@ const UserCard = observer(() => {
 						<>
 							<h1 className='board-heading'>{username}</h1>
 							<div className='board-heading-wrapper'>
-								<Link to={AppRoute.TASK_ADD} className='button button-default'>Добавить задачу</Link>
+								{/* <Link to={AppRoute.TASK_ADD} className='button button-default'>Добавить задачу</Link> */}
+								<button className='button button-default' type='button' onClick={handleAddTask}>Добавить задачу</button>
 								{id === localStorage.authUserId &&
 									<button className='button button-primary' type='button' onClick={handleActive}>Редактировать</button>
 								}

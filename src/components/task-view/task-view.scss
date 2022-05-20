@@ -18,12 +18,14 @@
 
 	&-description {
 		width: 35%;
+		border-left: 1px solid $disabled;
+		padding: 0 0 0 20px;
 
 		&-text {
-			max-height: calc(100% - 40px);
-			padding: 0 20px;
+			max-height: calc(100% - 25px);
+			padding: 0 20px 0 0;
 			margin: 0;
-			border-left: 1px solid $disabled;
+
 			overflow: auto;
 			@include scroll-style;
 		}
