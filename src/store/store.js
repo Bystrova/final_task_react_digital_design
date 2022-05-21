@@ -54,47 +54,47 @@ class TasksStore {
 		onBecomeObserved(this, 'taskData', this.getTask)
 	}
 
-	*getTasks() {
-		const response = yield getTasks(this.tasksFilter);
+	async getTasks() {
+		const response = await getTasks(this.tasksFilter);
 		this.tasksData = response.data.data;
 		this.total = response.data.total;
 	}
 
-	*getTask() {
-		const response = yield getTask(this.id);
+	async getTask() {
+		const response = await getTask(this.id);
 		this.taskData = response.data;
 	}
 
-	*addTask(data) {
-		yield addOrEditTask(data);
-		yield this.getTasks();
+	async addTask(data) {
+		await addOrEditTask(data);
+		await this.getTasks();
 	}
 
-	*editTask(data) {
-		yield addOrEditTask(data);
-		yield this.getTask();
-		yield this.getTasks();
+	async editTask(data) {
+		await addOrEditTask(data);
+		await this.getTask();
+		await this.getTasks();
 	}
 
-	*addTaskWorktime(id, data){
-		yield addTaskWorktime(id, data);
-		yield this.getTask();
-		yield comments.getComments();
+	async addTaskWorktime(id, data){
+		await addTaskWorktime(id, data);
+		await this.getTask();
+		await comments.getComments();
 	}
 
-	*changeTaskStatusFromCard(id, status){
-		yield changeTaskStatus(id, status);
-		yield this.getTask();
+	async changeTaskStatusFromCard(id, status){
+		await changeTaskStatus(id, status);
+		await this.getTask();
 	}
 
-	*changeTaskStatusFromList(id, status){
-		yield changeTaskStatus(id, status);
-		yield this.getTasks();
+	async changeTaskStatusFromList(id, status){
+		await changeTaskStatus(id, status);
+		await this.getTasks();
 	}
 
-	*deleteTask(id){
-		yield deleteTask(id);
-		yield this.getTasks();
+	async deleteTask(id){
+		await deleteTask(id);
+		await this.getTasks();
 	}
 }
 
@@ -127,25 +127,25 @@ class UsersStore {
 		return this.allUsersData.slice().sort((a, b) => a.username > b.username ? 1 : -1);
 	}
 
-	*getAllUsers() {
-		const response = yield getAllUsers();
+	async getAllUsers() {
+		const response = await getAllUsers();
 		this.allUsersData = response.data;
 	}
 
-	*getUsers() {
-		const response = yield getUsers(this.usersFilter);
+	async getUsers() {
+		const response = await getUsers(this.usersFilter);
 		this.usersData = response.data.data;
 		this.total = response.data.total;
 	}
 
-	*getUser() {
-		const response = yield getUser(this.id);
+	async getUser() {
+		const response = await getUser(this.id);
 		this.userData = response.data;
 	}
 
-	*editUser(data) {
-		yield editUser(data);
-		yield this.getUser();
+	async editUser(data) {
+		await editUser(data);
+		await this.getUser();
 	}
 }
 export const users = new UsersStore();
@@ -166,19 +166,19 @@ class CommentsStore {
 		onBecomeObserved(this, 'commentsData', this.getComments);
 	}
 
-	*getComments() {
-		const response = yield getComments(this.id);
+	async getComments() {
+		const response = await getComments(this.id);
 		this.commentsData = response.data;
 	}
 
-	*addOrEditComment(data) {
-		yield addOrEditComment(data);
-		yield this.getComments();
+	async addOrEditComment(data) {
+		await addOrEditComment(data);
+		await this.getComments();
 	}
 
-	*deleteComment(id) {
-		yield deleteComment(id);
-		yield this.getComments();
+	async deleteComment(id) {
+		await deleteComment(id);
+		await this.getComments();
 	}
 }
 export const comments = new CommentsStore();

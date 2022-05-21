@@ -17,8 +17,9 @@ const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, ti
 	let modalHeading = 'Редактирование пользователя';
 	let buttonText = 'Сохранить';
 	let defaultForm = {
-		'about': about,
-		'photoUrl': photoUrl
+		about: about,
+		photoUrl: photoUrl,
+		username: username,
 	}
 
 	if (location === `${AppRoute.TASK_VIEW}/${id}`) {
@@ -50,7 +51,6 @@ const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, ti
 		users.id = id;
 		users.editUser({
 			...form,
-			username: username,
 			login: login,
 			password: localStorage.password,
 			id: id
