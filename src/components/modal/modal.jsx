@@ -8,9 +8,9 @@ import FilterDropdown from '../filter-dropdown/filter-dropdown';
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { AppRoute, Units, DropdownTypes } from '../../const';
-import { users, tasks } from '../../store/store';
+import { users, tasks, logIn } from '../../store/store';
 
-const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, timeInMinutes }) => {
+const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl }) => {
 
 	const location = useLocation().pathname;
 
@@ -50,6 +50,12 @@ const Modal = ({ isActive, setIsActive, login, username, about, id, photoUrl, ti
 		evt.preventDefault();
 		users.id = id;
 		users.editUser({
+			...form,
+			login: login,
+			password: localStorage.password,
+			id: id
+		})
+		logIn.editUser({
 			...form,
 			login: login,
 			password: localStorage.password,

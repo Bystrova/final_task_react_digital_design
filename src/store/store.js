@@ -146,6 +146,7 @@ class UsersStore {
 	async editUser(data) {
 		await editUser(data);
 		await this.getUser();
+		await this.getAllUsers();
 	}
 }
 export const users = new UsersStore();

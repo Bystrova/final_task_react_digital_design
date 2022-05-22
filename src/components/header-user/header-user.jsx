@@ -33,11 +33,10 @@ const HeaderUser = observer(() => {
 					</div>
 				</div>
 				<ul className='dropdown-list dropdown-list-header'>
-					<li className='dropdown-item'><Link to={`${AppRoute.USER}/${authUserId}`} className='dropdown-link'>Посмотреть профиль</Link></li>
-					<li className='dropdown-item'><button className='dropdown-link dropdown-link-marked' onClick={handleExit} >Выйти из системы</button></li>
+					<li className='dropdown-item'><Link to={`${AppRoute.USER}/${authUserId}`} className='dropdown-link'>Посмотреть&nbsp;профиль</Link></li>
+					<li className='dropdown-item'><button className='dropdown-link dropdown-link-marked' onClick={handleExit} >Выйти&nbsp;из&nbsp;системы</button></li>
 				</ul>
 			</div>
-
 		</>
 	)
 })
