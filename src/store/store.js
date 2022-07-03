@@ -1,26 +1,20 @@
+import { computed, makeAutoObservable, onBecomeObserved, reaction } from 'mobx';
 
 import {
-	computed, 
-	makeAutoObservable,
-	onBecomeObserved,  
-	reaction
-} from 'mobx';
-
-import { 
-	getTasks, 
-	getTask, 
-	getAllUsers, 
-	getUsers, 
-	getUser, 
-	getComments, 
-	addOrEditComment, 
-	deleteComment, 
+	getTasks,
+	getTask,
+	getAllUsers,
+	getUsers,
+	getUser,
+	getComments,
+	addOrEditComment,
+	deleteComment,
 	addOrEditTask,
 	editUser,
 	deleteTask,
 	addTaskWorktime,
-	changeTaskStatus
- } from '../api';
+	changeTaskStatus,
+} from '../api';
 
 class TasksStore {
 	tasksData = [];
@@ -30,34 +24,40 @@ class TasksStore {
 	taskLimit = 8;
 	page = 0;
 	pageInUserCard = 0;
-	
+	isLoading = false;
 
 	tasksFilter = {
-		'filter': {
-			'query': '',
-			'assignedUsers': [],
-			'userIds': [],
-			'type': [],
-			'status': [],
-			'rank': []
+		filter: {
+			query: '',
+			assignedUsers: [],
+			userIds: [],
+			type: [],
+			status: [],
+			rank: [],
 		},
-		'page': 0,
-		'limit': this.taskLimit
-	}
+		page: 0,
+		limit: this.taskLimit,
+	};
 
 	constructor() {
-		makeAutoObservable(this, {}, {
-		autoBind: true
-		})
+		makeAutoObservable(
+			this,
+			{},
+			{
+				autoBind: true,
+			}
+		);
 
-		onBecomeObserved(this, 'tasksData', this.getTasks)
-		onBecomeObserved(this, 'taskData', this.getTask)
+		onBecomeObserved(this, 'tasksData', this.getTasks);
+		onBecomeObserved(this, 'taskData', this.getTask);
 	}
 
 	async getTasks() {
+		this.isLoading = true;
 		const response = await getTasks(this.tasksFilter);
 		this.tasksData = response.data.data;
 		this.total = response.data.total;
+		this.isLoading = false;
 	}
 
 	async getTask() {
@@ -76,23 +76,23 @@ class TasksStore {
 		await this.getTasks();
 	}
 
-	async addTaskWorktime(id, data){
+	async addTaskWorktime(id, data) {
 		await addTaskWorktime(id, data);
 		await this.getTask();
 		await comments.getComments();
 	}
 
-	async changeTaskStatusFromCard(id, status){
+	async changeTaskStatusFromCard(id, status) {
 		await changeTaskStatus(id, status);
 		await this.getTask();
 	}
 
-	async changeTaskStatusFromList(id, status){
+	async changeTaskStatusFromList(id, status) {
 		await changeTaskStatus(id, status);
 		await this.getTasks();
 	}
 
-	async deleteTask(id){
+	async deleteTask(id) {
 		await deleteTask(id);
 		await this.getTasks();
 	}
@@ -100,7 +100,12 @@ class TasksStore {
 
 export const tasks = new TasksStore();
 
-reaction(() => tasks.tasksFilter, () => { tasks.getTasks() });
+reaction(
+	() => tasks.tasksFilter,
+	() => {
+		tasks.getTasks();
+	}
+);
 
 class UsersStore {
 	allUsersData = [];
@@ -111,12 +116,16 @@ class UsersStore {
 	total = null;
 	userLimit = 9;
 	lastLocation = '';
-	
+
 	constructor() {
-		makeAutoObservable(this, {}, {
-		autoBind: true,
-		sortedData: computed
-		})
+		makeAutoObservable(
+			this,
+			{},
+			{
+				autoBind: true,
+				sortedData: computed,
+			}
+		);
 
 		onBecomeObserved(this, 'allUsersData', this.getAllUsers);
 		onBecomeObserved(this, 'usersData', this.getUsers);
@@ -124,7 +133,9 @@ class UsersStore {
 	}
 
 	get allUsersDataSorted() {
-		return this.allUsersData.slice().sort((a, b) => a.username > b.username ? 1 : -1);
+		return this.allUsersData
+			.slice()
+			.sort((a, b) => (a.username > b.username ? 1 : -1));
 	}
 
 	async getAllUsers() {
@@ -152,17 +163,31 @@ class UsersStore {
 export const users = new UsersStore();
 export const logIn = new UsersStore();
 
-reaction(() => users.usersFilter, () => { users.getUsers() });
-reaction(() => users.id, () => { users.getUser() });
+reaction(
+	() => users.usersFilter,
+	() => {
+		users.getUsers();
+	}
+);
+reaction(
+	() => users.id,
+	() => {
+		users.getUser();
+	}
+);
 
 class CommentsStore {
 	commentsData = [];
 	id = '';
 
 	constructor() {
-		makeAutoObservable(this, {}, {
-		autoBind: true
-		})
+		makeAutoObservable(
+			this,
+			{},
+			{
+				autoBind: true,
+			}
+		);
 
 		onBecomeObserved(this, 'commentsData', this.getComments);
 	}

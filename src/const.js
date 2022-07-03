@@ -5,36 +5,36 @@ export const AppRoute = {
 	TASK_EDIT: '/task/edit/:id?',
 	TASK_ADD: '/task/edit',
 	USERS: '/users',
-	USER: '/users/user'
-}
+	USER: '/users/user',
+};
 
 export const Ranks = {
-		'low': 'Низкий',
-		'medium': 'Средний',
-		'high': 'Высокий'
-	}
+	low: 'Низкий',
+	medium: 'Средний',
+	high: 'Высокий',
+};
 
 export const Statuses = {
-		'opened': 'Открыто',
-		'inProgress': 'В работе',
-		'testing': 'Тестирование',
-		'complete': 'Сделано'
-	}
+	opened: 'Открыто',
+	inProgress: 'В работе',
+	testing: 'Тестирование',
+	complete: 'Сделано',
+};
 
 export const Types = {
-	'bug': 'Ошибка',
-	'task': 'Задача'
-}
+	bug: 'Ошибка',
+	task: 'Задача',
+};
 
 export const DropdownTypes = {
-	'rank': 'Приоритет',
-	'status': 'Статус',
-	'type': 'Тип',
-	'executor': 'Пользователь',
-	'units': 'Единицы измерения'
-}
+	rank: 'Приоритет',
+	status: 'Статус',
+	type: 'Тип',
+	executor: 'Пользователь',
+	units: 'Единицы измерения',
+};
 
 export const Units = {
-	'minutes': 'Минуты',
-	'hours': 'Часы'
-}
+	minutes: 'Минуты',
+	hours: 'Часы',
+};

@@ -2,20 +2,30 @@ import React from 'react';
 import './header-tabs.scss';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { useLocation, useParams } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 
 const HeaderTabs = () => {
-
-	const location = useLocation().pathname;
-
-	const { id } = useParams();
+	const tasksView = useRouteMatch(AppRoute.TASKS);
+	const taskAddOrEdit = useRouteMatch(AppRoute.TASK_ADD);
+	const isTasksTab = taskAddOrEdit || tasksView;
+	const isUsersTab = useRouteMatch(AppRoute.USERS);
 
 	return (
-		<div className='header-tabs'>
-			<Link to={AppRoute.TASKS} className={`header-tabs-link  ${(location === AppRoute.TASKS || location === `${AppRoute.TASK_VIEW}/${id}` || location === AppRoute.TASK_ADD || location === `${AppRoute.TASK_ADD}/${id}`) && 'link-active'}`}>Задачи</Link>
-			<Link to={AppRoute.USERS} className={`header-tabs-link  ${(location === AppRoute.USERS || location === `${AppRoute.USER}/${id}`) && 'link-active'}`}>Пользователи</Link>
+		<div className="header-tabs">
+			<Link
+				to={AppRoute.TASKS}
+				className={`header-tabs-link  ${isTasksTab && 'link-active'}`}
+			>
+				Задачи
+			</Link>
+			<Link
+				to={AppRoute.USERS}
+				className={`header-tabs-link  ${isUsersTab && 'link-active'}`}
+			>
+				Пользователи
+			</Link>
 		</div>
-	)
-}
+	);
+};
 
 export default HeaderTabs;
